@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Algorithms_DataStruct_Lib
 {
-    public class SingleLinkedList<T>
+    public class SingleLinkedList<T> : IEnumerable<T>
     {
         public Node<T> Head { get; private set; }
         public Node<T> Tail { get; private set; }
@@ -83,6 +84,21 @@ namespace Algorithms_DataStruct_Lib
             }
 
             Count--;
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            Node<T> current = Head;
+            while (current != null)
+            {
+                yield return current.Value;
+                current = current.Next;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
 
         public bool IsEmpty => Count == 0;
