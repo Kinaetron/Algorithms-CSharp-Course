@@ -21,21 +21,24 @@ namespace Algorithms_DataStruct_Lib
 
         public static int GetPrime(int min)
         {
-            if(min < 0) {
+            if (min < 0)
+            {
                 throw new ArgumentException("min can't be negative");
             }
 
             for (int i = 0; i < Predefined.Length; i++)
             {
                 int prime = Predefined[i];
-                if(prime > min) {
+                if (prime > min)
+                {
                     return prime;
                 }
             }
 
-            for (int i = min | 1; i < int.MaxValue; i+=2)
+            for (int i = min | 1; i < int.MaxValue; i += 2)
             {
-                if(IsPrime(i) && (i - 1) % HashPrime != 0) {
+                if (IsPrime(i) && (i - 1) % HashPrime != 0)
+                {
                     return i;
                 }
             }
@@ -45,12 +48,13 @@ namespace Algorithms_DataStruct_Lib
 
         private static bool IsPrime(int candidate)
         {
-            if(candidate%2 != 0)
+            if (candidate % 2 != 0)
             {
                 int limit = (int)Math.Sqrt(candidate);
-                for (int divisor = 3; divisor <= limit; divisor+= 2)
+                for (int divisor = 3; divisor <= limit; divisor += 2)
                 {
-                    if(candidate % divisor == 0) {
+                    if (candidate % divisor == 0)
+                    {
                         return false;
                     }
                 }
@@ -64,7 +68,8 @@ namespace Algorithms_DataStruct_Lib
         public static int ExpandPrime(int oldSize)
         {
             int newSize = 2 * oldSize;
-            if((uint)newSize > MaxPrimeArrayLength && MaxPrimeArrayLength > oldSize) {
+            if ((uint)newSize > MaxPrimeArrayLength && MaxPrimeArrayLength > oldSize)
+            {
                 return MaxPrimeArrayLength;
             }
 
@@ -74,11 +79,30 @@ namespace Algorithms_DataStruct_Lib
         public static int ReducePrime(int oldSize)
         {
             int newSize = oldSize / 2;
-            if(newSize > MaxPrimeArrayLength && MaxPrimeArrayLength > oldSize) {
+            if (newSize > MaxPrimeArrayLength && MaxPrimeArrayLength > oldSize)
+            {
                 return MaxPrimeArrayLength;
             }
 
             return GetPrime(newSize);
+        }
+
+        public static IEnumerable<int> Sieve(int max)
+        {
+            bool[] composite = new bool[max + 1];
+
+            for (int p = 2; p <= max; p++)
+            {
+                if(composite[p]) {
+                    continue;
+                }
+
+                yield return p;
+
+                for (int i = p * p; i <= max; i+=p) {
+                    composite[i] = true;
+                }
+            }
         }
     }
 }
